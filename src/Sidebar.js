@@ -27,9 +27,20 @@ class Sidebar extends React.Component {
             dataArray.push(element['Net Asset Value']);
             // dataArray.push(element['Repurchase Price']);
             // dataArray.push(element['Sale Price']);
-            graphRows.push(dataArray)
+            graphRows.push(dataArray);
         });
-        // console.log(graphRows);
+                
+        console.log(graphRows);
+        
+        function reverseArray(arr) {
+            var newArray = [];
+            for (var i = arr.length - 1; i >= 0; i--) {
+              newArray.push(arr[i]);
+            }
+            return newArray;
+        }
+        
+        let graphRowsReversed = reverseArray(graphRows);
 
         //Load the charts library with a callback
         GoogleCharts.load(drawChart);
@@ -58,7 +69,8 @@ class Sidebar extends React.Component {
             //     [66, 70], [67, 72], [68, 75], [69, 80]
             // ]);
 
-            data.addRows(graphRows);
+            
+            data.addRows(graphRowsReversed);
 
             var options = {
                 hAxis: {
