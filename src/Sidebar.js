@@ -1,6 +1,7 @@
 import React from 'react';
 import graphs from './data/db.json';
 import './Sidebar.css';
+import './css/hamburgers.css';
 import ListItem from './ListItem';
 // import SearchInput, {createFilter} from 'react-search-input';
 import {GoogleCharts} from 'google-charts';
@@ -14,7 +15,37 @@ class Sidebar extends React.Component {
         this.state = {
             searchTerm: ''
         }
-        this.searchUpdated = this.searchUpdated.bind(this)
+        this.searchUpdated = this.searchUpdated.bind(this);
+        this.getDataJson = this.getDataJson.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({graphs:  this.getDataJson()});
+        console.log(this.state.graphs);
+    }
+
+    getDataJson = () => {
+
+        let progress = 0.1;
+
+        let oReq = new XMLHttpRequest();
+
+        //Download progress
+        oReq.addEventListener("progress", function(evt){
+        if (evt.lengthComputable) {
+            let percentComplete = evt.loaded / evt.total;
+            //Do something with download progress
+            console.log(evt.total);
+            if(percentComplete > progress ){
+                console.log("Finish " + progress * 100 + "%.");
+                progress += 0.1;
+
+            }
+        }
+        }, false);
+
+        oReq.open("get", "./data/db.json", true);
+        oReq.send()
     }
 
     onClick = (e) => {
@@ -29,8 +60,6 @@ class Sidebar extends React.Component {
             // dataArray.push(element['Sale Price']);
             graphRows.push(dataArray);
         });
-                
-        console.log(graphRows);
         
         function reverseArray(arr) {
             var newArray = [];
@@ -70,15 +99,18 @@ class Sidebar extends React.Component {
             // ]);
 
             
-            data.addRows(graphRowsReversed);
+            data.addRows(graphRows);
+            console.log(graphRows);
+            // data.addRows(graphRowsReversed);
 
             var options = {
                 hAxis: {
-                title: 'Time'
+                    title: 'Date'
                 },
                 vAxis: {
-                title: 'Net Asset Value'
-                }
+                    title: 'Net Asset Value'
+                },
+                explorer: { axis: 'horizontal' }
             };
             const line_chart = new GoogleCharts.api.visualization.LineChart(document.getElementById('chart-div'));
             line_chart.draw(data, options);
@@ -100,11 +132,18 @@ class Sidebar extends React.Component {
         // const filteredCharts = graphs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
 
         return(
-            <div className="sidebar">
-                {/* <SearchInput className="sidebar__search-input" onChange={this.searchUpdated} /> */}    
-                <ul className="sidebar__chartlist">
-                    {this.populateLi()}
-                </ul>
+            <div className="sidebar__wrapper">
+                <div className="sidebar">
+                    {/* <SearchInput className="sidebar__search-input" onChange={this.searchUpdated} /> */}    
+                    <ul className="sidebar__chartlist">
+                        {this.populateLi()}
+                    </ul>
+                </div>
+                {/* <button className="hamburger hamburger--arrowturn is-active" type="button">
+                    <span className="hamburger-box">
+                        <span className="hamburger-inner"></span>
+                    </span>
+                </button> */}
             </div>
         );
     }

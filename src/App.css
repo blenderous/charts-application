@@ -12,9 +12,24 @@ div#root {
 }
 
 div#chart-div {
-  width: 800px;
+  width: 750px;
   height: 600px;
+  margin-left: 20px;
   float: left;
+}
+
+@media (max-width: 1168px) {
+  div#chart-div {
+    width: 600px;
+  }
+}
+
+@media (max-width: 1024px) {
+  div#chart-div {
+    float: none;
+    margin: 0 auto;
+    width: 800px;
+  }
 }
 
 .App-logo {
