@@ -17,38 +17,15 @@ class Sidebar extends React.Component {
             selectedLI : 0
         }
         // this.searchUpdated = this.searchUpdated.bind(this);
-        this.getDataJson = this.getDataJson.bind(this);
-    }
-
-    componentDidMount() {
-        this.getDataJson();
-    }
-
-    getDataJson = () => {
-
-        // let xhr = new XMLHttpRequest();
-        // let progressBar = {};
-        // console.log(xhr);
-        // xhr.open("GET", "./data/db.json", true);
-        // xhr.responseType = "text";
-        // xhr.onprogress = function(e) {
-        //     if (e.lengthComputable) {
-        //         progressBar.max = e.total;
-        //         progressBar.value = e.loaded;
-        //     }
-        // };
-        // xhr.onloadstart = function(e) {
-        //     progressBar.value = 0;
-        // };
-        // xhr.onloadend = function(e) {
-        //     progressBar.value = e.loaded;
-        //     console.log(e);
-        // };
-        // xhr.send(null);
     }
 
     onClick = (e) => {
+        // find index from parent LI
         let index = e.target.parentElement.getAttribute('keyprop');
+        
+        // set state to current index
+        this.setState({selectedLI : index});
+        
         // graphRows to be inserted later into data
         let graphRows = []
         graphs[index].forEach(element => {
@@ -59,11 +36,6 @@ class Sidebar extends React.Component {
             dataArray.push(element['Sale Price']);
             graphRows.push(dataArray);
         });
-
-        // if (this.state.selectedLI !== 0) {
-        //     document.getElementsByClassName("sidebar__chartlist")[0].find('li')
-        // }
-        this.setState({selectedLI : index});
         
         // function reverseArray(arr) {
         //     var newArray = [];
@@ -104,7 +76,6 @@ class Sidebar extends React.Component {
 
             
             data.addRows(graphRows);
-            console.log(graphRows);
             // data.addRows(graphRowsReversed);
 
             var options = {
