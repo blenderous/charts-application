@@ -18,6 +18,10 @@ div#chart-div {
   float: left;
 }
 
+div#chart-div p {
+  margin-top: 15px;
+}
+
 @media (max-width: 1168px) {
   div#chart-div {
     width: 600px;

@@ -13,39 +13,38 @@ class Sidebar extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            searchTerm: ''
+            // searchTerm: ''
+            selectedLI : 0
         }
-        this.searchUpdated = this.searchUpdated.bind(this);
+        // this.searchUpdated = this.searchUpdated.bind(this);
         this.getDataJson = this.getDataJson.bind(this);
     }
 
     componentDidMount() {
-        this.setState({graphs:  this.getDataJson()});
-        console.log(this.state.graphs);
+        this.getDataJson();
     }
 
     getDataJson = () => {
 
-        let progress = 0.1;
-
-        let oReq = new XMLHttpRequest();
-
-        //Download progress
-        oReq.addEventListener("progress", function(evt){
-        if (evt.lengthComputable) {
-            let percentComplete = evt.loaded / evt.total;
-            //Do something with download progress
-            console.log(evt.total);
-            if(percentComplete > progress ){
-                console.log("Finish " + progress * 100 + "%.");
-                progress += 0.1;
-
-            }
-        }
-        }, false);
-
-        oReq.open("get", "./data/db.json", true);
-        oReq.send()
+        // let xhr = new XMLHttpRequest();
+        // let progressBar = {};
+        // console.log(xhr);
+        // xhr.open("GET", "./data/db.json", true);
+        // xhr.responseType = "text";
+        // xhr.onprogress = function(e) {
+        //     if (e.lengthComputable) {
+        //         progressBar.max = e.total;
+        //         progressBar.value = e.loaded;
+        //     }
+        // };
+        // xhr.onloadstart = function(e) {
+        //     progressBar.value = 0;
+        // };
+        // xhr.onloadend = function(e) {
+        //     progressBar.value = e.loaded;
+        //     console.log(e);
+        // };
+        // xhr.send(null);
     }
 
     onClick = (e) => {
@@ -56,20 +55,25 @@ class Sidebar extends React.Component {
             let dataArray = [];
             dataArray.push(new Date(element["Date"].toString()));
             dataArray.push(element['Net Asset Value']);
-            // dataArray.push(element['Repurchase Price']);
-            // dataArray.push(element['Sale Price']);
+            dataArray.push(element['Repurchase Price']);
+            dataArray.push(element['Sale Price']);
             graphRows.push(dataArray);
         });
+
+        // if (this.state.selectedLI !== 0) {
+        //     document.getElementsByClassName("sidebar__chartlist")[0].find('li')
+        // }
+        this.setState({selectedLI : index});
         
-        function reverseArray(arr) {
-            var newArray = [];
-            for (var i = arr.length - 1; i >= 0; i--) {
-              newArray.push(arr[i]);
-            }
-            return newArray;
-        }
+        // function reverseArray(arr) {
+        //     var newArray = [];
+        //     for (var i = arr.length - 1; i >= 0; i--) {
+        //       newArray.push(arr[i]);
+        //     }
+        //     return newArray;
+        // }
         
-        let graphRowsReversed = reverseArray(graphRows);
+        // let graphRowsReversed = reverseArray(graphRows);
 
         //Load the charts library with a callback
         GoogleCharts.load(drawChart);
@@ -80,8 +84,8 @@ class Sidebar extends React.Component {
             const data = new GoogleCharts.api.visualization.DataTable();
             data.addColumn('date', 'Time');
             data.addColumn('number', 'Net Asset Value');
-            // data.addColumn('number', 'Repurchase Price');
-            // data.addColumn('number', 'Sale Price');
+            data.addColumn('number', 'Repurchase Price');
+            data.addColumn('number', 'Sale Price');
 
             // data.addRows([
             //     [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
@@ -108,7 +112,7 @@ class Sidebar extends React.Component {
                     title: 'Date'
                 },
                 vAxis: {
-                    title: 'Net Asset Value'
+                    title: 'Value'
                 },
                 explorer: { axis: 'horizontal' }
             };
@@ -118,10 +122,11 @@ class Sidebar extends React.Component {
     }
 
     populateLi = () => {
+        const activeStyle = { color: 'rgb(177, 18, 18)' };
         let LIs = []
         for (var keyItem in graphs) {
             if (graphs.hasOwnProperty(keyItem)) {
-                LIs.push(<ListItem key={keyItem} keyProp={keyItem} onClick={this.onClick} text={graphs[keyItem][0]["Scheme Name"]}/>)
+                LIs.push(<ListItem style={this.state.selectedLI === keyItem ? activeStyle : {}} key={keyItem} keyProp={keyItem} onClick={this.onClick} text={graphs[keyItem][0]["Scheme Name"]}/>)
             }
         }
         return LIs;
