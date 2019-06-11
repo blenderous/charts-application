@@ -25,54 +25,28 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <!-- loading spinner -->
-      <div class="hollowLoader">
-        <div class="largeBox"></div>
-        <div class="smallBox"></div>
+      <div class="spinner">
       </div>
-      <style>
+      <style>       
 
-        body { 
-          background-color: #ffba45; 
-          text-align: center;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          width: 100vw;
-          margin: 0;
+        @keyframes spinner {
+          to {transform: rotate(360deg);}
         }
-
-        .hollowLoader {
-          width: 3em;
-          height: 3em;
-          animation: loaderAnim 1.25s infinite ease-in-out;
-          outline: 1px solid transparent;
-        }
-        .largeBox {
-          height: 3em;
-          width: 3em;
-          background-color: #ECECEC;
-          outline: 1px solid transparent;
-          position: fixed;
-        }
-        .smallBox {
-          height: 3em;
-          width: 3em;
-          background-color: #ffba45;
-          position: fixed;
-          z-index: 1;
-          outline: 1px solid transparent;
-          animation: smallBoxAnim 1.25s alternate infinite ease-in-out;
-        }
-
-        @keyframes smallBoxAnim {
-          0% {transform: scale(0.2);}
-          100% {transform: scale(0.75);}
-        }
-
-        @keyframes loaderAnim {
-          0% {transform: rotate(0deg);}
-          100% {transform: rotate(90deg);}
+        
+        .spinner:before {
+          content: '';
+          box-sizing: border-box;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 40px;
+          height: 40px;
+          margin-top: -20px;
+          margin-left: -20px;
+          border-radius: 50%;
+          border: 2px solid #ccc;
+          border-top-color: #ffba45;
+          animation: spinner .6s linear infinite;
         }
 
       </style>

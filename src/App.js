@@ -7,8 +7,7 @@ import Sidebar from './Sidebar';
 function App() {
   return (
     <div className="App">
-      {/* <Progress percent={30}/> */}
-      <Sidebar></Sidebar>
+      <Sidebar/>
       <div id="chart-div">
         <p>Click on one of the links on the left</p>
       </div>
