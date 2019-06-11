@@ -6,14 +6,14 @@ import ListItem from './ListItem';
 // import SearchInput, {createFilter} from 'react-search-input';
 import {GoogleCharts} from 'google-charts';
 
-// const KEYS_TO_FILTERS = ['chart']
+// const KEYS_TO_FILTER = [this.props.keyProp]
 
 class Sidebar extends React.Component {
 
     constructor (props) {
         super(props)
         this.state = {
-            // searchTerm: ''
+            // searchTerm: '',
             selectedLI : 0
         }
         // this.searchUpdated = this.searchUpdated.bind(this);
@@ -101,22 +101,22 @@ class Sidebar extends React.Component {
         let LIs = []
         for (var keyItem in graphs) {
             if (graphs.hasOwnProperty(keyItem)) {
-                LIs.push(<ListItem style={this.state.selectedLI === keyItem ? activeStyle : {}} key={keyItem} keyProp={keyItem} onClick={this.onClick} text={graphs[keyItem][0]["Scheme Name"]}/>)
+                LIs.push(<ListItem style={this.state.selectedLI === keyItem ? activeStyle : {}} key={keyItem} keyProp={keyItem} onClick={this.onClick}>{graphs[keyItem][0]["Scheme Name"]}</ListItem>)
             }
         }
         return LIs;
     }
 
     render() {
-        
-        // const filteredCharts = graphs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-
+        const LIs = this.populateLi();
+        // console.log(LIs);
+        // const filteredListItems = LIs.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTER));
         return(
             <div className="sidebar__wrapper">
                 <div className="sidebar">
-                    {/* <SearchInput className="sidebar__search-input" onChange={this.searchUpdated} /> */}    
+                    {/* <SearchInput className="sidebar__search-input" onChange={this.searchUpdated} />     */}
                     <ul className="sidebar__chartlist">
-                        {this.populateLi()}
+                        {LIs}
                     </ul>
                 </div>
                 {/* <button className="hamburger hamburger--arrowturn is-active" type="button">
