@@ -19,6 +19,10 @@ class Sidebar extends React.Component {
         // this.searchUpdated = this.searchUpdated.bind(this);
     }
 
+    // componentDidMount() {
+    //     
+    // }
+
     onClick = (e) => {
         // find index from parent LI
         let index = e.target.parentElement.getAttribute('keyprop');
