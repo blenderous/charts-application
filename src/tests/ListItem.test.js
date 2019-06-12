@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItem from './ListItem';
+import ListItem from '../ListItem';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
